@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import os.path
+import urllib
 
 def mkdir(paths):
     if not isinstance(paths, (list, tuple)):
@@ -13,10 +14,10 @@ def load_train_test_corner():
     dataDir = './data/'
     mkdir(dataDir)
     if not os.path.isfile(dataDir + 'angle_ims.npy'):
-        os.system(
-            'wget https://github.com/JavierAntoran/corner_dataset/blob/master/data/angle_ims.npy -O ./data/angle_ims.npy')
-        os.system(
-            'wget https://github.com/JavierAntoran/corner_dataset/blob/master/data/angle_ims.npy -O ./data/angle_targets.npy')
+        urllib.urlretrieve("https://github.com/JavierAntoran/corner_dataset/blob/master/data/angle_ims.npy",
+                            dataDir + 'angle_ims.npy')
+        urllib.urlretrieve("https://github.com/JavierAntoran/corner_dataset/blob/master/data/angle_targets.npy",
+                       dataDir + 'angle_targets.npy')
 
     train_ratio = 1 - 0.125
 
@@ -24,9 +25,9 @@ def load_train_test_corner():
     y = np.load(dataDir + 'angle_targets.npy')
     Ntrain = int(x.shape[0] * train_ratio)
 
-    xtr = x[0:Ntrain]
-    xte = x[Ntrain:]
-    ytr = y[0:Ntrain]
-    yte = y[Ntrain:]
+    xtr = np.asarray(x[0:Ntrain], dtype=np.float32)
+    xte = np.asarray(x[Ntrain:], dtype=np.float32)
+    ytr = np.asarray(y[0:Ntrain], dtype=np.int64)
+    yte = np.asarray(y[Ntrain:], dtype=np.int64)
 
     return xtr, ytr, xte, yte
