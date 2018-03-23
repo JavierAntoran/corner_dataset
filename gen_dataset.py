@@ -79,7 +79,7 @@ for cl in range(nClasses):
                     for t0 in thick:
                         for t1 in thick:
                             figures[i] = \
-                                gen_figure(imgSize, cl, so0, so1, s0, s1, t0, t1, 0.05)
+                                gen_figure(imgSize, cl, so0, so1, s0, s1, t0, t1, noiseLvl)
                             labels.append('%d %d %d %d' % (so0, so1, t0, t1))
                             y.append(cl)
                             i += 1
